@@ -23,7 +23,9 @@ public class MainActivity extends BaseActivity{
     MyFragmentAdapter adapter;
     @Override
     protected void init() {
-        setToolBar(toolbar,"GankGirl");
+        //setToolBar(toolbar,"GankGirl");
+        toolbar.setTitle("GankGirl");
+        setSupportActionBar(toolbar);
         adapter=new MyFragmentAdapter(getSupportFragmentManager(),this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setAdapter(adapter);
