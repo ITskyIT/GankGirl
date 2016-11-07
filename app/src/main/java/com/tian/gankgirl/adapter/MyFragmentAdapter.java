@@ -12,7 +12,7 @@ import com.tian.gankgirl.ui.fragment.MainFragment;
  */
 public class MyFragmentAdapter extends FragmentPagerAdapter{
 
-    private String[] titles = new String[]{"全部", "福利", "Android", "IOS", "休息视频", "扩展资源", "前端"};
+    private String[] titles = new String[]{"全部", "福利", "Android", "IOS", "休息视频", "前端"};
     final int COUNT = titles.length;
     private Context context;
     public MyFragmentAdapter(FragmentManager fm,Context context) {

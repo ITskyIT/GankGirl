@@ -23,7 +23,7 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
     protected View mView;
     protected T mPresenter;
     protected RetrofitHelper helper;
-    protected boolean isInited = false;
+   // protected boolean isInited = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,15 +32,19 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
         //创建 presenter
 
         mPresenter=createPresneter(helper);
+        if (mPresenter != null)
+            mPresenter.attachView(this);
+        mUnBinder = ButterKnife.bind(this, mView);
+        init();
         return mView;
     }
 
     protected abstract T createPresneter(RetrofitHelper helper);
-
-    @Override
+   /* @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.attachView(this);
+        if (mPresenter != null)
+            mPresenter.attachView(this);
         mUnBinder = ButterKnife.bind(this, view);
         if (savedInstanceState == null) {
             if (!isHidden()) {
@@ -50,11 +54,11 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
         } else {
 
         }
-    }
+    }*/
 
-    protected abstract void initEventAndData();
+   // protected abstract void initEventAndData();
 
-    @Override
+   /* @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!isInited && !hidden) {
@@ -62,7 +66,7 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
             initEventAndData();
         }
     }
-
+*/
     protected abstract void init();
 
     protected abstract int getLayoutId();
@@ -77,4 +81,11 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
         super.onDestroy();
         if (mPresenter != null) mPresenter.detachView();
     }
+
+    @Override
+    public void showMsg(String message) {
+
+    }
+
+
 }

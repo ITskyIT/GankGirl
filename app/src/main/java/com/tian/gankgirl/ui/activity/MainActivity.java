@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity{
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(adapter);
+        viewPager.setOffscreenPageLimit(5);
     }
 
     @Override

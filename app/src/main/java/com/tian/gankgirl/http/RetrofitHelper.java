@@ -1,16 +1,22 @@
 package com.tian.gankgirl.http;
 
 
+import com.tian.gankgirl.bean.MainBean;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 /**
  * 网络请求
  */
 public class RetrofitHelper {
     private static OkHttpClient okHttpClient = null;
-    private static APIService fuliApis = null;
+    private static APIService mainApis = null;
 
     public RetrofitHelper() {
 
@@ -19,7 +25,7 @@ public class RetrofitHelper {
 
     private void initRetrofit() {
         initOkhttp();
-       // fuliApis=getFuliApis();
+        mainApis=getMainApis();
     }
 
     private void initOkhttp() {
@@ -86,7 +92,7 @@ public class RetrofitHelper {
         okHttpClient = builder.build();
     }
 
-   /* public static APIService getFuliApis() {
+    public static APIService getMainApis() {
 
         //addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         Retrofit fuliRetrofit = new Retrofit.Builder()
@@ -97,7 +103,7 @@ public class RetrofitHelper {
                 .build();
         return fuliRetrofit.create(APIService.class);
     }
-    public Observable<FuLiGirl> getFuliData() {
-        return fuliApis.getFuliGirl();
-    }*/
+    public Observable<MainBean> getAppData(String category,int page) {
+        return mainApis.getMainData(category,page);
+    }
 }

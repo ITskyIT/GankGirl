@@ -4,10 +4,9 @@
              android:layout_height="match_parent"
              tools:context="com.tian.gankgirl.ui.fragment.MainFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+  <com.jcodecraeer.xrecyclerview.XRecyclerView
+      android:id="@+id/xv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
 </FrameLayout>

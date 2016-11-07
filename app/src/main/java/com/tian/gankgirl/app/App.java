@@ -18,7 +18,17 @@ public class App extends Application{
     //存放Activity的集合
     Set<Activity> activityList;
     //单例模式
-    public static synchronized App getInstance() {
+    private App (){}
+
+
+    public static App getInstance() {
+        if (instance == null) {
+            synchronized (App.class) {
+                if (instance == null) {
+                    instance = new App();
+                }
+            }
+        }
         return instance;
     }
     @Override
