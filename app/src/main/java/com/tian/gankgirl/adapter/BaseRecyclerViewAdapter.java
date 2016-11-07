@@ -22,6 +22,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     protected Picasso mPicasso;
 
     public OnItemClickListener<T> mOnItemClickListener;
+    public OnItemSimpleListener<T> mOnItemSimpleListener;
 
     public BaseRecyclerViewAdapter(Context context, List<T> datas) {
         mContext = context;
@@ -125,5 +126,15 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
             this.mOnItemClickListener = listener;
         }
     }
+    public interface OnItemSimpleListener<T>{
+        void onItemClick(View view, int position);
 
+        void onItemLongClick(View view, int position);
+    }
+
+    public void setmOnItemSimpleListener(OnItemSimpleListener<T> mOnItemSimpleListener) {
+        if (mOnItemSimpleListener != null) {
+            this.mOnItemSimpleListener = mOnItemSimpleListener;
+        }
+    }
 }

@@ -28,8 +28,8 @@ public class MainAdapter extends BaseRecyclerViewAdapter<MainBean.MainData>{
     }
 
     @Override
-    protected void bindViewHodler(BaseRecyclerViewHolder holder, int position) {
-        MainHolder hold= (MainHolder) holder;
+    protected void bindViewHodler(BaseRecyclerViewHolder holder, final int position) {
+        final MainHolder hold= (MainHolder) holder;
         hold.desc.setText(mDatas.get(position).getDesc());
         hold.type.setText(mDatas.get(position).getType());
         switch (index){
@@ -41,12 +41,29 @@ public class MainAdapter extends BaseRecyclerViewAdapter<MainBean.MainData>{
             case 3:
             case 5:
                 if (mDatas.get(position).getImages()==null){
-                    mPicasso.load(R.mipmap.app).error(R.mipmap.app).into(hold.iv);
+                    if (mDatas.get(position).getUrl().endsWith(".jpg")) {
+                        mPicasso.load(mDatas.get(position).getUrl()).error(R.mipmap.app).into(hold.iv);
+                    }else {
+                        mPicasso.load(R.mipmap.app).error(R.mipmap.app).into(hold.iv);
+                    }
                 }else {
                     mPicasso.load(mDatas.get(position).getImages().get(0)).error(R.mipmap.app).into(hold.iv);
                 }
            break;
-
+        }
+        if (mOnItemClickListener!=null){
+            hold.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(hold.itemView,position,mDatas.get(position));
+                }
+            });
+            hold.iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemSimpleListener.onItemClick(hold.iv,position);
+                }
+            });
         }
     }
 

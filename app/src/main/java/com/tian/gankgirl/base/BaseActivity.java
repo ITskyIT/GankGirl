@@ -22,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+       // StatusBarCompat.translucentStatusBar(this);
         unBinder= ButterKnife.bind(this);
         init();
         //添加进入集合便于处理
