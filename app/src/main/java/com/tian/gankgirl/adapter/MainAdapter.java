@@ -61,7 +61,9 @@ public class MainAdapter extends BaseRecyclerViewAdapter<MainBean.MainData>{
             hold.iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemSimpleListener.onItemClick(hold.iv,position);
+                    if (mDatas.get(position).getType().equals("福利")) {
+                        mOnItemSimpleListener.onItemClick(hold.iv, position);
+                    }
                 }
             });
         }

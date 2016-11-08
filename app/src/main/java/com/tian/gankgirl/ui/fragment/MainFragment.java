@@ -1,6 +1,9 @@
 package com.tian.gankgirl.ui.fragment;
 
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,6 +22,7 @@ import com.tian.gankgirl.bean.MainBean;
 import com.tian.gankgirl.http.RetrofitHelper;
 import com.tian.gankgirl.mvp.presenter.MainPresenter;
 import com.tian.gankgirl.mvp.view.MainView;
+import com.tian.gankgirl.ui.activity.GirlPhotoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +100,7 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<MainBean.MainData>() {
             @Override
             public void onItemClick(View view, int position, MainBean.MainData mode) {
-
+                Toast.makeText(getActivity(), "妹子item", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -110,7 +114,15 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
         adapter.setmOnItemSimpleListener(new BaseRecyclerViewAdapter.OnItemSimpleListener<MainBean.MainData>() {
             @Override
             public void onItemClick(View view, int position) {
-
+                String imgUrl=list.get(position).getUrl();
+                Intent intent=new Intent(getActivity(), GirlPhotoActivity.class);
+                intent.putExtra("girl",imgUrl);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation
+                            (getActivity(), view.findViewById(R.id.img), "girlgirl").toBundle());
+                } else {
+                    startActivity(intent);
+                }
             }
 
             @Override
