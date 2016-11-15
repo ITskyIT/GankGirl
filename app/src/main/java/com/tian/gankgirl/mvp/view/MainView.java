@@ -10,4 +10,5 @@ import com.tian.gankgirl.bean.MainBean;
  */
 public interface MainView extends BaseView{
     void showData(MainBean data);
+    void scrolltoTop();
 }

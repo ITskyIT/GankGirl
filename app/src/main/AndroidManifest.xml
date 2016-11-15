@@ -3,24 +3,40 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:uiOptions="splitActionBarWhenNarrow">
-        <activity android:name=".ui.activity.MainActivity">
+        android:theme="@style/AppTheme"
+        >
+        <activity android:name=".ui.activity.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.GirlPhotoActivity"
-                  android:theme="@style/AppTheme.NoActionBar.Trans"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.activity.GirlPhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Trans">
+        </activity>
+        <activity android:name=".ui.activity.VideoPlayActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+        <activity android:name=".ui.activity.DetailsActivity"
+            >
         </activity>
     </application>
 

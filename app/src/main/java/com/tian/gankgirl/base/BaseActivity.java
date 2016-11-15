@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.tian.gankgirl.app.App;
+import com.tian.gankgirl.rx.RxManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -18,12 +19,14 @@ import butterknife.Unbinder;
  */
 public abstract class BaseActivity extends AppCompatActivity{
     private Unbinder unBinder;
+    protected RxManager mRxManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
        // StatusBarCompat.translucentStatusBar(this);
         unBinder= ButterKnife.bind(this);
+        mRxManager=new RxManager();
         init();
         //添加进入集合便于处理
         App.getInstance().addActivity(this);
@@ -60,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         unBinder.unbind();
         //移除activity
         App.getInstance().removeActivity(this);
+        mRxManager.clear();
 
 
     }

@@ -5,12 +5,11 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -23,11 +22,14 @@ import com.tian.gankgirl.http.RetrofitHelper;
 import com.tian.gankgirl.mvp.presenter.MainPresenter;
 import com.tian.gankgirl.mvp.view.MainView;
 import com.tian.gankgirl.ui.activity.GirlPhotoActivity;
+import com.tian.gankgirl.ui.activity.VideoPlayActivity;
+import com.tian.gankgirl.view.DialogProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,11 +39,11 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
     private  int positionIndex;
     @BindView(R.id.xv)
     XRecyclerView recyclerView;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+
     private MainAdapter adapter;
     private int page=1;
     private int action=3;
+    public DialogProgressBar mDialogProgressBar;
     List<MainBean.MainData> list=new ArrayList<>();
     public static MainFragment newInstance(int position) {
         
@@ -60,16 +62,12 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
 
     @Override
     protected void init() {
-
+        mDialogProgressBar=new DialogProgressBar(getActivity());
         positionIndex=getArguments().getInt(MAIN_FRAGMENT);
-        mPresenter.getData(positionIndex,1);
+        mPresenter.getData(positionIndex, 1);
+
         initRecy();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
-            }
-        });
+
 
     }
     private void initRecy() {
@@ -100,7 +98,13 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<MainBean.MainData>() {
             @Override
             public void onItemClick(View view, int position, MainBean.MainData mode) {
-                Toast.makeText(getActivity(), "妹子item", Toast.LENGTH_SHORT).show();
+                if (positionIndex == 4) {
+                    startActivity(new Intent(getActivity(), VideoPlayActivity.class)
+                            .putExtra("videourl", mode.getUrl()));
+
+                } else {
+
+                }
             }
 
             @Override
@@ -108,6 +112,26 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
 
             }
         });
+
+       /* recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+                if (positionIndex==4){
+                    Log.e("dddddddddddd",positionIndex+"");
+                    if (JCVideoPlayerManager.getFirst()!= null) {
+                        JCVideoPlayer videoPlayer = (JCVideoPlayer) JCVideoPlayerManager.getFirst();
+                        if (((ViewGroup) view).indexOfChild(videoPlayer) != -1 && videoPlayer.currentState == JCVideoPlayer.CURRENT_STATE_PLAYING) {
+                            JCVideoPlayer.releaseAllVideos();
+                        }
+                    }
+                }
+            }
+        });*/
         /**
          * 图片点击
          */
@@ -130,13 +154,18 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
 
             }
         });
+
     }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main;
     }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        JCVideoPlayer.releaseAllVideos();
+    }
     @Override
     public void showData(MainBean data) {
         List<MainBean.MainData> li=new ArrayList<>();
@@ -145,7 +174,7 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
             list.clear();
             list.addAll(li);
         }else{
-        list.addAll(data.getResults());
+        list.addAll(li);
         }
         adapter.setDatas(list);
         recyclerView.loadMoreComplete();
@@ -154,12 +183,18 @@ public class MainFragment extends BaseMVPFragment<MainPresenter> implements Main
     }
 
     @Override
+    public void scrolltoTop() {
+        recyclerView.smoothScrollToPosition(0);
+    }
+
+    @Override
     public void showProgress() {
-        Toast.makeText(getActivity(), "努力加载中...", Toast.LENGTH_SHORT).show();
+        Log.e("666666","lll");
+        mDialogProgressBar.show();
     }
 
     @Override
     public void hideProgress() {
-
+        mDialogProgressBar.dismiss();
     }
 }

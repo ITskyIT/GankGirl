@@ -8,8 +8,8 @@ android {
         applicationId "com.tian.gankgirl"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -18,7 +18,11 @@ android {
         }
     }
 }
-
+/*//设置虚拟机堆内存空间大小，避免在编译期间OOM
+dexOptions {
+    incremental true
+    javaMaxHeapSize "4g"
+}*/
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -42,4 +46,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'cn.hugeterry.updatefun:updatefun:1.8.6'//fire.im自动更新
+    compile project(':jcvideoplayer-lib')//视频播放
 }

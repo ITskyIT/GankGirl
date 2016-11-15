@@ -21,15 +21,29 @@ public class MainPresenter extends BaseRx<MainView> {
         this.mRetrofitHelper = mRetrofitHelper;
     }
 
+    @Override
+    public void onstart() {
+        super.onstart();
+        //监听返回顶部动作
+        mRxManger.on("toptop", new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+                mView.scrolltoTop();
+            }
+        });
+    }
+
     public void getData(int position, int page) {
         switch (position) {
             case 0:
+                mView.showProgress();
                 Subscription rxSubscription = mRetrofitHelper.getAppData("all", page)
                         .compose(RxUtil.<MainBean>rxSchedulerHelper())
                         .subscribe(new Action1<MainBean>() {
                             @Override
                             public void call(MainBean commentBean) {
                                 mView.showData(commentBean);
+                                mView.hideProgress();
                             }
                         }, new Action1<Throwable>() {
                             @Override
@@ -38,6 +52,7 @@ public class MainPresenter extends BaseRx<MainView> {
                             }
                         });
                 addSubscrebe(rxSubscription);
+
                 break;
             case 1:
                 Subscription rxSubscription1 = mRetrofitHelper.getAppData("福利", page)

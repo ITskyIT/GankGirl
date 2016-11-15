@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tian.gankgirl.http.RetrofitHelper;
+import com.tian.gankgirl.rx.RxManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,6 +25,8 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
     protected T mPresenter;
     protected RetrofitHelper helper;
    // protected boolean isInited = false;
+    protected RxManager mRxManager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
         if (mPresenter != null)
             mPresenter.attachView(this);
         mUnBinder = ButterKnife.bind(this, mView);
+        mRxManager=new RxManager();
         init();
         return mView;
     }
@@ -74,17 +78,19 @@ public abstract class BaseMVPFragment<T extends BaseRx> extends Fragment impleme
     public void onDestroyView() {
         super.onDestroyView();
         mUnBinder.unbind();
+        if (mPresenter != null) mPresenter.detachView();
+        mRxManager.clear();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) mPresenter.detachView();
+
     }
 
     @Override
     public void showMsg(String message) {
-
+       // Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
 
